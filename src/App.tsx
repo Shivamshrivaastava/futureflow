@@ -9,6 +9,8 @@ import type { FinancialData, Scenario } from './types';
 import { Toaster, toast } from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 const scenarios: Scenario[] = [
   {
@@ -50,19 +52,9 @@ function PlannerApp() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transition">
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Clock className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold">Financial Time Machine</h1>
-          </div>
-          {/* <button
-            onClick={toggleTheme}
-            className="flex items-center space-x-1 text-sm bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded"
-          >
-          </button> */}
-        </div>
-      </header>
+      
+      {/* ✅ Reusable Navbar */}
+      <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -124,6 +116,10 @@ function PlannerApp() {
           </div>
         </div>
       </main>
+
+      {/* ✅ Reusable Footer */}
+      <Footer />
+
       <Toaster position="top-center" />
     </div>
   );
