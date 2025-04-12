@@ -60,7 +60,7 @@ Welcome to **FutureFlow** – a modern, intelligent, and interactive platform th
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/futureflow.git
+https://github.com/Shivamshrivaastava/futureflow.git
 cd futureflow
 
 # 2. Install dependencies
