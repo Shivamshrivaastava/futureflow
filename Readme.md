@@ -5,6 +5,8 @@ Welcome to **FutureFlow** – a modern, intelligent, and interactive platform th
 ---
 ##  📌 Deployed site - https://furure-flow.netlify.app/
 ---
+## walk-through of the project - https://youtu.be/wTnDPBzZiug
+---
 ## 📌 Features
 
 ### ✅ Dashboard Highlights
