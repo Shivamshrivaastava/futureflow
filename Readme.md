@@ -3,7 +3,8 @@
 Welcome to **FutureFlow** – a modern, intelligent, and interactive platform that empowers individuals to visualize and improve their financial future using real-time insights and AI suggestions. This project leverages the power of **Gemini AI**, advanced charting, and responsive UI to deliver a seamless personal finance experience.
 
 ---
-
+##  📌 Deployed site - https://furure-flow.netlify.app/
+---
 ## 📌 Features
 
 ### ✅ Dashboard Highlights
