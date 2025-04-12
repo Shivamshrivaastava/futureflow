@@ -1,16 +1,22 @@
 import { useState } from 'react';
-import { Clock, Lightbulb } from 'lucide-react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Toaster } from 'react-hot-toast';
+
 import FinancialForm from './components/FinancialForm';
 import ScenarioCard from './components/ScenarioCard';
 import ProjectionChart from './components/ProjectionChart';
 import CollatedDashboard from './components/CollatedDashboard';
-import type { FinancialData, Scenario } from './types';
-import { Toaster, toast } from 'react-hot-toast';
-import confetti from 'canvas-confetti';
-import { AnimatePresence, motion } from 'framer-motion';
+import DashboardLanding from './components/DashboardLanding';
+import GeminiAIDashboard from './components/GeminiAIDashboard';
+import SignIn from './components/SignIn'; // 👈 NEW SignIn Component
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+
+import type { FinancialData, Scenario } from './types';
+import confetti from 'canvas-confetti';
+import { Lightbulb } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const scenarios: Scenario[] = [
   {
@@ -43,19 +49,14 @@ function PlannerApp() {
   const [financialData, setFinancialData] = useState<FinancialData | null>(null);
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
 
-  // On financial data submission, show toast and confetti
   const handlePlanSubmit = (data: FinancialData) => {
     setFinancialData(data);
-    toast.success('Financial Plan Generated 🎉');
     confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
   };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transition">
-      
-      {/* ✅ Reusable Navbar */}
       <Navbar />
-
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
@@ -116,13 +117,15 @@ function PlannerApp() {
           </div>
         </div>
       </main>
-
-      {/* ✅ Reusable Footer */}
       <Footer />
-
       <Toaster position="top-center" />
     </div>
   );
+}
+
+function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const isLoggedIn = !!localStorage.getItem('futureflow-user');
+  return isLoggedIn ? children : <Navigate to="/signin" replace />;
 }
 
 function AppRoutes() {
@@ -131,17 +134,32 @@ function AppRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PlannerApp />} />
-        <Route path="/dashboard" element={<motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 30 }}
-          transition={{ duration: 0.5 }}
-        >
-          <CollatedDashboard />
-        </motion.div>} />
+        <Route path="/" element={<PageWrapper><DashboardLanding /></PageWrapper>} />
+        <Route path="/signin" element={<PageWrapper><SignIn /></PageWrapper>} />
+        <Route path="/planner" element={
+          <ProtectedRoute>
+            <PageWrapper><PlannerApp /></PageWrapper>
+          </ProtectedRoute>
+        } />
+        <Route path="/dashboard" element={<PageWrapper><CollatedDashboard /></PageWrapper>} />
+        <Route path="/dashboard-home" element={<PageWrapper><GeminiAIDashboard /></PageWrapper>} />
+        <Route path="/launch-dashboard" element={<SignIn />} />
+
       </Routes>
     </AnimatePresence>
+  );
+}
+
+function PageWrapper({ children }: { children: JSX.Element }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 30 }}
+      transition={{ duration: 0.5 }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
